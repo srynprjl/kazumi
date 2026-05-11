@@ -1,8 +1,5 @@
-# Kazumi - Alpha
-
-[![Go Version](https://img.shields.io/github/go-mod/go-version/srynprjl/kazumi)](https://golang.org/)
-[![License](https://img.shields.io/github/license/srynprjl/kazumi)](LICENSE)
-[![Status](https://img.shields.io/badge/status-alpha-orange)](#)
+# Kazumi 
+## Work in Progress
 
 Kazumi is a command-line tool designed to transform tracks into high-quality Nightcore. It uses yt-dlp for downloads and FFmpeg for audio manipulation, offering a streamlined workflow for music processing.
 
@@ -78,7 +75,7 @@ Once built, you can run Kazumi from the bin directory:
 ./bin/kazumi
 ```
 
-*Note: The CLI is currently under active development. Configuration options and command flags are being worked upon.*
+*Note: The CLI is currently under active development and hasn't been properly implemented yet.*
 
 ---
 
@@ -87,13 +84,31 @@ Once built, you can run Kazumi from the bin directory:
 ```text
 ├── cmd/
 │   ├── kazumi/    # Main entry point
-│   └── cli/       # CLI command definitions (Cobra)
+│   └── cli/       # CLI command definitions (Cobra) [WIP]
 ├── lib/
 │   ├── audio/     # Processing & Downloading logic
-│   ├── image/     # Video generation (WIP)
+│   ├── image/     # Video generation [WIP]
 │   └── misc/      # Utils, Logging, Dependencies
 └── ui/            # Planned UI implementations (TUI/GUI/Web)
 ```
+
+---
+
+## Roadmap / TODO
+
+- [ ] Implement command line functionality
+- [ ] Allow multiple videos to be batch processed.
+- [ ] Add a config to store information such as locations
+- [ ] Generate a simple video using the audio and image provided
+- [ ] Add more audio filters like Bass Boost or EQ presets.
+- [ ] Add verbose error messages.
+- [ ] Add a way to automatically download & cache the dependencies if not present.
+
+### UI Implementations
+- [ ] Build a terminal user interface using Bubble Tea or similar.
+- [ ] Use Fyne to build a GUI Application
+- [ ] Create a basic website to manage the download remotely
+
 
 ---
 
