@@ -3,7 +3,6 @@ package image
 import (
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"path"
@@ -17,13 +16,13 @@ func ImageDownload(url string, name string) {
 	misc.Log(fmt.Sprintf("Created file %s", name), "")
 	if err != nil {
 		misc.Log(fmt.Sprintf("Error creating %s", name), "e")
-		log.Fatal(err)
+		panic(err)
 	}
 
 	resp, err := http.Get(url)
 	if err != nil {
 		misc.Log(fmt.Sprintf("Error accessing %s", url), "e")
-		log.Fatal(err)
+		panic(err)
 	}
 	defer resp.Body.Close()
 
@@ -31,7 +30,7 @@ func ImageDownload(url string, name string) {
 
 	if err != nil {
 		misc.Log(fmt.Sprintf("Error while downloading file from %s", url), "e")
-		log.Fatal(err)
+		panic(err)
 	}
 	misc.Log(fmt.Sprintf("Downloaded file from %s", url), "")
 }

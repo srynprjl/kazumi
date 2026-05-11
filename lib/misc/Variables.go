@@ -1,7 +1,6 @@
 package misc
 
 import (
-	"log"
 	"os"
 	"path"
 )
@@ -9,7 +8,7 @@ import (
 func GetCacheDir() string {
 	cache_dir, err := os.UserCacheDir()
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	dir := path.Join(cache_dir, "kazumi", "videos")
 	return dir
@@ -18,7 +17,7 @@ func GetCacheDir() string {
 func GetLogDir() string {
 	cache_dir, err := os.UserCacheDir()
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	dir := path.Join(cache_dir, "kazumi", "logs")
 	return dir
@@ -27,7 +26,7 @@ func GetLogDir() string {
 func VideosDir() string {
 	home_folder, err := os.UserHomeDir()
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	dir := path.Join(home_folder, "Videos", "kazumi")
 	return dir
