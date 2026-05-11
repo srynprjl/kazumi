@@ -13,13 +13,16 @@ import (
 func AudioSpeed(path string, value float64) string {
 	if value < 0.5 || value > 2.0 {
 		println("Value must be between 0.5 and 2.0")
+		misc.Log("Invalid value", "e")
 	}
 	outputs := strings.Split(path, ".mp3")
 	output := outputs[0] + "_edited.mp3"
 	err := ffmpeg.Input(path).Silent(true).Filter("aresample", ffmpeg.Args{"44100"}).Filter("atempo", ffmpeg.Args{fmt.Sprintf("%f", value)}).Output(output, ffmpeg.KwArgs{"audio_bitrate": "192k"}).OverWriteOutput().Run()
 	if err != nil {
+		misc.Log("Error while adjusting speed", "e")
 		panic(err)
 	}
+	misc.Log(fmt.Sprintf("Adjusted speed of audio by %.2f", value), "")
 	return output
 }
 
@@ -35,8 +38,10 @@ func AudioPitch(path string, value float64) string {
 	temp_output := "output.mp3"
 	err := ffmpeg.Input(path).Silent(true).Filter("aresample", ffmpeg.Args{"44100"}).Filter("asetrate", ffmpeg.Args{fmt.Sprintf("%d", new_rate)}).Filter("atempo", ffmpeg.Args{fmt.Sprintf("%f", speed_corr)}).Output(temp_output).OverWriteOutput().Run()
 	if err != nil {
+		misc.Log("Error while adjusting pitch", "e")
 		panic(err)
 	}
+	misc.Log(fmt.Sprintf("Adjusted pitch of audio by %.2f", value), "")
 	os.Rename(temp_output, output)
 	return output
 }
@@ -55,8 +60,10 @@ func AudioReverb(path string, inGain float32, outGain float32, delay float32, de
 		"vn":  "",
 	}).OverWriteOutput().Silent(true).Run()
 	if err != nil {
+		misc.Log("Error while adjusting reverb", "e")
 		panic(err.Error())
 	}
+	misc.Log(fmt.Sprintf("Adjusted reverb of audio by inGain = %.2f, outGain = %.2f, delay = %.1f, decay = %.2f", inGain, outGain, delay, decay), "")
 	os.Rename(temp_output, output)
 	return output
 }

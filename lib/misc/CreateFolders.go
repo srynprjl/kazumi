@@ -1,6 +1,7 @@
 package misc
 
 import (
+	"fmt"
 	"log"
 	"os"
 )
@@ -10,6 +11,7 @@ func createIfNotExists(dir string) {
 	if err != nil {
 		if os.IsNotExist(err) {
 			err := os.MkdirAll(dir, 0755)
+			Log(fmt.Sprintf("created folder %s", dir), "")
 			if err != nil {
 				log.Fatal(err)
 			}

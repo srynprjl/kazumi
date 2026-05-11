@@ -1,4 +1,4 @@
-package logger
+package misc
 
 import (
 	"fmt"
@@ -7,8 +7,6 @@ import (
 	"path"
 	"strings"
 	"time"
-
-	"github.com/srynprjl/kazumi/lib/misc"
 )
 
 func Log(msg string, typ string) {
@@ -21,7 +19,7 @@ func Log(msg string, typ string) {
 		a = "FATAL"
 	}
 	log_msg := fmt.Sprintf("[%s] [%s] > %s\n", a, datetime, msg)
-	p := misc.GetLogDir()
+	p := GetLogDir()
 	current_log := path.Join(p, strings.Join([]string{date, "txt"}, "."))
 
 	f, err := os.OpenFile(current_log, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
