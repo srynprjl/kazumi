@@ -1,0 +1,5 @@
+package image
+
+func MakeVideos() {
+
+}

@@ -22,10 +22,6 @@ func startup() {
 }
 
 func main() {
-	// name := audio.AudioDownload("link")
-	// file_name := path.Join(misc.GetCacheDir(), name) + ".mp3"
-	// file := audio.AudioSpeed(file_name, 0.85)
-	// file = audio.AudioReverb(file, 1.0, 0.7, 60, 0.5)
 	if checkDependencies() {
 		startup()
 		// cli.Execute()
