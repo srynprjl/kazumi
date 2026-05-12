@@ -129,9 +129,9 @@ Once built, you can run Kazumi from the bin directory. The basic syntax is:
 
 ## Roadmap / TODO
 
-- [ x ] Implement command line functionality
-- [ x ] Generate a simple video using the audio and image provided
-- [ x ] Allow multiple videos to be batch processed (JSON config).
+- [x] Implement command line functionality
+- [x] Generate a simple video using the audio and image provided
+- [x] Allow multiple videos to be batch processed (JSON config).
 - [ ] Add a config to store information such as locations
 - [ ] Add a history database
 - [ ] Add more audio filters like Bass Boost or EQ presets.
