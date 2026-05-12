@@ -9,9 +9,8 @@ import (
 )
 
 var rootCmd = &cobra.Command{
-	Use:  "kazumi",
-	Args: cobra.MinimumNArgs(1),
-	// Example: "kazumi --speed 1.25 --pitch 1.33 --image <url>  <url>`",
+	Use:     "kazumi",
+	Args:    cobra.MinimumNArgs(1),
 	Example: "kazumi -s=1.25 -p=1.33 -i=<url>  <url>`",
 	Short:   "Video to Nightcore ",
 	Run: func(cmd *cobra.Command, args []string) {
@@ -64,8 +63,10 @@ func init() {
 	rootCmd.Flags().StringP("image", "i", "", "Image url for video")
 
 	rootCmd.AddCommand(jsonCmd)
-	// rootCmd.MarkFlagsMutuallyExclusive("json", "speed")
-	// rootCmd.MarkFlagsMutuallyExclusive("json", "pitch")
-	// rootCmd.MarkFlagsMutuallyExclusive("json", "reverb")
-	// rootCmd.MarkFlagsMutuallyExclusive("json", "image")
+	rootCmd.AddCommand(cacheCmd)
+
+	cacheCmd.Flags().BoolP("cache", "c", false, "Clean the cache directory")
+	cacheCmd.Flags().BoolP("logs", "l", false, "Clean the logs directory")
+	cacheCmd.MarkFlagsMutuallyExclusive("cache", "logs")
+	cacheCmd.Flags().BoolP("all", "a", false, "Clean all caches")
 }
