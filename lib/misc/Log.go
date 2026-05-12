@@ -13,9 +13,10 @@ func Log(msg string, typ string) {
 	datetime := time.Now().Format("2006-01-02 15:04:05")
 	date := time.Now().Format("2006-01-02")
 	a := "NORMAL"
-	if typ == "e" {
+	switch typ {
+	case "e":
 		a = "ERROR"
-	} else if typ == "f" {
+	case "f":
 		a = "FATAL"
 	}
 	log_msg := fmt.Sprintf("[%s] [%s] > %s\n", a, datetime, msg)

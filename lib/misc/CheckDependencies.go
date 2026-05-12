@@ -12,5 +12,4 @@ func CheckDependencies(command string) (bool, string) {
 	} else {
 		return true, ""
 	}
-
 }

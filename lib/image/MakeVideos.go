@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/srynprjl/kazumi/lib/misc"
 	ffmpeg "github.com/u2takey/ffmpeg-go"
@@ -32,9 +33,11 @@ func MakeVideos(imagePath string, audioPath string) string {
 			"shortest": "",
 			"movflags": "faststart",
 		},
-	).OverWriteOutput().ErrorToStdOut().Silent(true).Run()
-	videoPath := fmt.Sprintf("%s.mp4", imagePath)
+	).OverWriteOutput().ErrorToStdOut().Silent(true).GlobalArgs("-hide_banner", "-loglevel", "error").Run()
+	misc.Log("Generated a video.", "")
+	videoPath := fmt.Sprintf("%s.mp4", strings.TrimSuffix(imagePath, ".jpg"))
 	if err != nil {
+		misc.Log("Error happened while converting.", "e")
 		panic(err)
 	}
 	os.Rename(output, videoPath)

@@ -6,13 +6,15 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/srynprjl/kazumi/lib/misc"
 )
 
 func ImageDownload(url string, name string) string {
 	cache_file_name := misc.GetCacheDir()
-	out, err := os.Create(path.Join(cache_file_name, name))
+	image_name := strings.Join([]string{name, "jpg"}, ".")
+	out, err := os.Create(path.Join(cache_file_name, image_name))
 	misc.Log(fmt.Sprintf("Created file %s", name), "")
 	if err != nil {
 		misc.Log(fmt.Sprintf("Error creating %s", name), "e")
