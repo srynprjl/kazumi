@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -9,51 +8,52 @@ import (
 	"github.com/srynprjl/kazumi/lib/creation"
 )
 
+var jsonCmd = &cobra.Command{
+	Use:     "json",
+	Args:    cobra.MinimumNArgs(1),
+	Example: "kazumi json <url>",
+	Run: func(cmd *cobra.Command, args []string) {
+		val := args[0]
+		if val != "" {
+			jsonData := creation.ParseJSON(val)
+			creation.DownloadUsingJSON(jsonData)
+		}
+	},
+}
+
 var rootCmd = &cobra.Command{
-	Use: "kazumi",
-	// Args:    cobra.MaximumNArgs(1),
+	Use:  "kazumi",
+	Args: cobra.MinimumNArgs(1),
 	// Example: "kazumi --speed 1.25 --pitch 1.33 --image <url>  <url>`",
 	Example: "kazumi -s=1.25 -p=1.33 -i=<url>  <url>`",
 	Short:   "Video to Nightcore ",
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) > 0 {
-			var opt creation.Options = creation.Options{}
-			cmd.Flags().VisitAll(func(f *pflag.Flag) {
-				if f.Changed {
-					if f.Name == "speed" {
-						opt.Speed.Enabled = true
-						opt.Speed.Value, _ = cmd.Flags().GetFloat64(f.Name)
-					}
-					if f.Name == "pitch" {
-						opt.Pitch.Enabled = true
-						opt.Pitch.Value, _ = cmd.Flags().GetFloat64(f.Name)
-					}
-					if f.Name == "reverb" {
-						opt.Reverb.Enabled = true
-						opt.Reverb.InGain = 1.0
-						opt.Reverb.OutGain = 0.8
-						opt.Reverb.Delay = 40
-						opt.Reverb.Decay = 0.3
-					}
+
+		var opt creation.Options = creation.Options{}
+		cmd.Flags().VisitAll(func(f *pflag.Flag) {
+			if f.Changed {
+				if f.Name == "speed" {
+					opt.Speed.Enabled = true
+					opt.Speed.Value, _ = cmd.Flags().GetFloat64(f.Name)
 				}
-			})
-			// fmt.Println(opt)
-			audio := args[0]
-			img, _ := cmd.Flags().GetString("image")
-			creation.FullProcedure(audio, img, opt)
-		} else if len(args) == 0 {
-			val, err := cmd.Flags().GetString("json")
-			if err != nil {
-				panic(err)
+				if f.Name == "pitch" {
+					opt.Pitch.Enabled = true
+					opt.Pitch.Value, _ = cmd.Flags().GetFloat64(f.Name)
+				}
+				if f.Name == "reverb" {
+					opt.Reverb.Enabled = true
+					opt.Reverb.InGain = 1.0
+					opt.Reverb.OutGain = 0.8
+					opt.Reverb.Delay = 40
+					opt.Reverb.Decay = 0.3
+				}
 			}
-			if val != "" {
-				jsonData := creation.ParseJSON(val)
-				creation.DownloadUsingJSON(jsonData)
-			} else {
-				fmt.Println("ERROR: Please provide a youtube url or json file")
-				cmd.Help()
-			}
-		}
+		})
+		// fmt.Println(opt)
+		audio := args[0]
+		img, _ := cmd.Flags().GetString("image")
+		creation.FullProcedure(audio, img, opt)
+
 	},
 }
 
@@ -75,13 +75,10 @@ func init() {
 	rootCmd.Flags().BoolP("reverb", "r", false, "Add reverb for to the video")
 
 	rootCmd.Flags().StringP("image", "i", "", "Image url for video")
-	// if err := rootCmd.MarkFlagRequired("image"); err != nil {
-	// 	panic("Image needs to be set.")
-	// }
-	//
-	rootCmd.Flags().StringP("json", "j", "", "JSON File to download multiple videos at the same time")
-	rootCmd.MarkFlagsMutuallyExclusive("json", "speed")
-	rootCmd.MarkFlagsMutuallyExclusive("json", "pitch")
-	rootCmd.MarkFlagsMutuallyExclusive("json", "reverb")
-	rootCmd.MarkFlagsMutuallyExclusive("json", "image")
+
+	rootCmd.AddCommand(jsonCmd)
+	// rootCmd.MarkFlagsMutuallyExclusive("json", "speed")
+	// rootCmd.MarkFlagsMutuallyExclusive("json", "pitch")
+	// rootCmd.MarkFlagsMutuallyExclusive("json", "reverb")
+	// rootCmd.MarkFlagsMutuallyExclusive("json", "image")
 }

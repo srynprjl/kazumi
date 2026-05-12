@@ -82,6 +82,7 @@ Once built, you can run Kazumi from the bin directory. The basic syntax is:
 - `-r, --reverb`: Enable reverb effect for the audio. 
 - `-i, --image <url>`: Specify an image URL to be used for the video background. Default: YT Video's Thumbnail
 - `-h, --help`: Display the help message.
+- `-j, --json`: Use JSON file, to download in bulk
 
 ### Examples
 
@@ -92,6 +93,7 @@ Once built, you can run Kazumi from the bin directory. The basic syntax is:
 ./bin/kazumi -s -p https://www.youtube.com/watch?v=example
 ```
 
+
 **Custom Speed and Pitch with Reverb:**
 ```bash
 ./bin/kazumi -s=1.3 -p=1.4 -r https://www.youtube.com/watch?v=example
@@ -100,6 +102,12 @@ Once built, you can run Kazumi from the bin directory. The basic syntax is:
 **With a custom image:**
 ```bash
 ./bin/kazumi -i "https://example.com/image.jpg" https://www.youtube.com/watch?v=example
+```
+
+
+**Use JSON:**
+```bash
+./bin/kazumi --json /home/user/data.json
 ```
 
 ---
@@ -123,7 +131,7 @@ Once built, you can run Kazumi from the bin directory. The basic syntax is:
 
 - [ x ] Implement command line functionality
 - [ x ] Generate a simple video using the audio and image provided
-- [ ] Allow multiple videos to be batch processed (JSON config).
+- [ x ] Allow multiple videos to be batch processed (JSON config).
 - [ ] Add a config to store information such as locations
 - [ ] Add a history database
 - [ ] Add more audio filters like Bass Boost or EQ presets.
@@ -131,6 +139,7 @@ Once built, you can run Kazumi from the bin directory. The basic syntax is:
 - [ ] Add a way to automatically download & cache the dependencies if not present.
 - [ ] Allow you to set custom value for reverb in CLI
 - [ ] Allow user to use local audio
+- [ ] Fix the weird audio issues
 
 ### UI Implementations
 - [ ] Build a terminal user interface using Bubble Tea or similar.
