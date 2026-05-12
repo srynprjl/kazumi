@@ -23,3 +23,6 @@ type Options struct {
 	Pitch  Pitch
 	Reverb Reverb
 }
+
+// type JSONConfig struct {
+// }

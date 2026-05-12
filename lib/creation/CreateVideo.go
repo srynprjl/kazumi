@@ -40,7 +40,7 @@ func FullProcedure(audio_url string, image_url string, opt Options) {
 		audio_path = audio.AudioReverb(audio_path, opt.Reverb.InGain, opt.Reverb.OutGain, opt.Reverb.Delay, opt.Reverb.Decay)
 	}
 
-	println("Creating a video. ")
+	println("\nCreating a video. ")
 	video_path := image.MakeVideos(image_path, audio_path)
 	println("Video succesfully created at " + video_path)
 

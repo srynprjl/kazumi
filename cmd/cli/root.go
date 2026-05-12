@@ -1,7 +1,6 @@
 package cli
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -36,7 +35,7 @@ var rootCmd = &cobra.Command{
 				}
 			}
 		})
-		fmt.Println(opt)
+		// fmt.Println(opt)
 		audio := args[0]
 		img, _ := cmd.Flags().GetString("image")
 		creation.FullProcedure(audio, img, opt)

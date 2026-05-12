@@ -18,7 +18,7 @@ LDFLAGS=-ldflags="-s -w -extldflags '-static'"
 
 all: fmt build
 
-help: 
+help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}'
 
 build:
@@ -45,7 +45,7 @@ tidy:
 	@echo "Tidying modules..."
 	@$(GOMOD) tidy
 
-install: build 
+install: build
 	@echo "Installing $(BINARY_NAME) to $(INSTALL_DIR)..."
 	@mkdir -p $(INSTALL_DIR)
 	@cp $(BUILD_DIR)/$(BINARY_NAME) $(INSTALL_DIR)/$(BINARY_NAME)
