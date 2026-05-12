@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -15,30 +16,44 @@ var rootCmd = &cobra.Command{
 	Example: "kazumi -s=1.25 -p=1.33 -i=<url>  <url>`",
 	Short:   "Video to Nightcore ",
 	Run: func(cmd *cobra.Command, args []string) {
-		var opt creation.Options = creation.Options{}
-		cmd.Flags().VisitAll(func(f *pflag.Flag) {
-			if f.Changed {
-				if f.Name == "speed" {
-					opt.Speed.Enabled = true
-					opt.Speed.Value, _ = cmd.Flags().GetFloat64(f.Name)
+		if len(args) > 0 {
+			var opt creation.Options = creation.Options{}
+			cmd.Flags().VisitAll(func(f *pflag.Flag) {
+				if f.Changed {
+					if f.Name == "speed" {
+						opt.Speed.Enabled = true
+						opt.Speed.Value, _ = cmd.Flags().GetFloat64(f.Name)
+					}
+					if f.Name == "pitch" {
+						opt.Pitch.Enabled = true
+						opt.Pitch.Value, _ = cmd.Flags().GetFloat64(f.Name)
+					}
+					if f.Name == "reverb" {
+						opt.Reverb.Enabled = true
+						opt.Reverb.InGain = 1.0
+						opt.Reverb.OutGain = 0.8
+						opt.Reverb.Delay = 40
+						opt.Reverb.Decay = 0.3
+					}
 				}
-				if f.Name == "pitch" {
-					opt.Pitch.Enabled = true
-					opt.Pitch.Value, _ = cmd.Flags().GetFloat64(f.Name)
-				}
-				if f.Name == "reverb" {
-					opt.Reverb.Enabled = true
-					opt.Reverb.InGain = 1.0
-					opt.Reverb.OutGain = 0.8
-					opt.Reverb.Delay = 40
-					opt.Reverb.Decay = 0.3
-				}
+			})
+			// fmt.Println(opt)
+			audio := args[0]
+			img, _ := cmd.Flags().GetString("image")
+			creation.FullProcedure(audio, img, opt)
+		} else if len(args) == 0 {
+			val, err := cmd.Flags().GetString("json")
+			if err != nil {
+				panic(err)
 			}
-		})
-		// fmt.Println(opt)
-		audio := args[0]
-		img, _ := cmd.Flags().GetString("image")
-		creation.FullProcedure(audio, img, opt)
+			if val != "" {
+				jsonData := creation.ParseJSON(val)
+				creation.DownloadUsingJSON(jsonData)
+			} else {
+				fmt.Println("ERROR: Please provide a youtube url or json file")
+				cmd.Help()
+			}
+		}
 	},
 }
 
@@ -63,5 +78,10 @@ func init() {
 	// if err := rootCmd.MarkFlagRequired("image"); err != nil {
 	// 	panic("Image needs to be set.")
 	// }
-
+	//
+	rootCmd.Flags().StringP("json", "j", "", "JSON File to download multiple videos at the same time")
+	rootCmd.MarkFlagsMutuallyExclusive("json", "speed")
+	rootCmd.MarkFlagsMutuallyExclusive("json", "pitch")
+	rootCmd.MarkFlagsMutuallyExclusive("json", "reverb")
+	rootCmd.MarkFlagsMutuallyExclusive("json", "image")
 }

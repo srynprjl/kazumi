@@ -1,0 +1,42 @@
+[
+  {
+    "video": "",
+    "image": "",
+    "make_video": true,
+    "speed": {
+      "enabled": true,
+      "value": 1.25
+    },
+    "pitch": {
+      "enabled": true,
+      "value": 1.33
+    },
+    "reverb": {
+      "enabled": true,
+      "ingain": 1.0,
+      "outgain": 0.8,
+      "delays": 40.0,
+      "decays": 0.3
+    }
+  },
+  {
+    "video": "",
+    "image": "",
+    "make_video": true,
+    "speed": {
+      "enabled": true,
+      "value": 1.25
+    },
+    "pitch": {
+      "enabled": true,
+      "value": 1.33
+    },
+    "reverb": {
+      "enabled": true,
+      "ingain": 1.0,
+      "outgain": 0.8,
+      "delays": 40.0,
+      "decays": 0.3
+    }
+  }
+]

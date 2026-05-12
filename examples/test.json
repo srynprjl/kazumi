@@ -1,0 +1,31 @@
+[
+  {
+    "video": "https://music.youtube.com/watch?v=H2xaiUjYbRw&si=Sbumv2a90W4u_BEi",
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQ6xXcjJnrPyvarwyttiFOUFGG2jY_WLCf3g&s",
+    "make_video": true,
+    "speed": {
+      "enabled": true,
+      "value": 1.25
+    },
+    "pitch": {
+      "enabled": true,
+      "value": 1.33
+    }
+  },
+  {
+    "video": "https://music.youtube.com/watch?v=IV-AZaDKJ5o&si=oxcvZbC1zsq8o8Zv",
+
+    "make_video": true,
+    "speed": {
+      "enabled": true,
+      "value": 0.9
+    },
+    "reverb": {
+      "enabled": true,
+      "ingain": 1.0,
+      "outgain": 0.8,
+      "delays": 40.0,
+      "decays": 0.3
+    }
+  }
+]

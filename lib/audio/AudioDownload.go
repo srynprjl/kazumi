@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/lrstanley/go-ytdlp"
 	"github.com/srynprjl/kazumi/lib/misc"
@@ -26,9 +27,8 @@ func AudioDownload(link string) (string, string, string) {
 		panic(err)
 	}
 	info, err := out.GetExtractedInfo()
-	output_name := path.Join(temp_video_dir, fmt.Sprintf("%s.mp3", *info[0].Title))
 	misc.Log(fmt.Sprintf("Downloaded %s", *info[0].Title), "")
-
-	return *info[0].Title, *info[0].Thumbnail, output_name
+	output := strings.TrimSuffix(*info[0].Filename, "m4a") + "mp3"
+	return *info[0].Title, *info[0].Thumbnail, output
 
 }

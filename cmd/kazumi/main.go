@@ -23,6 +23,8 @@ func startup() {
 }
 
 func main() {
+	// a := creation.ParseJSON("/home/srynprjl/.development/projects/kazumi/examples/default.json")
+	// creation.DownloadUsingJSON(a)
 	if checkDependencies() {
 		startup()
 		cli.Execute()

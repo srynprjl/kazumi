@@ -17,7 +17,7 @@ func AudioSpeed(path string, value float64) string {
 	}
 	outputs := strings.Split(path, ".mp3")
 	output := outputs[0] + "_edited.mp3"
-	err := ffmpeg.Input(path).Silent(true).Filter("aresample", ffmpeg.Args{"44100"}).Filter("atempo", ffmpeg.Args{fmt.Sprintf("%f", value)}).Output(output, ffmpeg.KwArgs{"audio_bitrate": "192k"}).OverWriteOutput().Run()
+	err := ffmpeg.Input(path).Silent(true).Filter("aresample", ffmpeg.Args{"44100"}).Filter("atempo", ffmpeg.Args{fmt.Sprintf("%f", value)}).Output(output, ffmpeg.KwArgs{"audio_bitrate": "192k"}).OverWriteOutput().ErrorToStdOut().Run()
 	if err != nil {
 		misc.Log("Error while adjusting speed", "e")
 		panic(err)
