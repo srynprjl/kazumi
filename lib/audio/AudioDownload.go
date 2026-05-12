@@ -10,7 +10,7 @@ import (
 	"github.com/srynprjl/kazumi/lib/misc"
 )
 
-func AudioDownload(link string) (string, string) {
+func AudioDownload(link string) (string, string, string) {
 	bool, _ := misc.CheckDependencies("yt-dlp")
 	if !bool {
 		misc.Log("yt-dlp not installed", "e")
@@ -29,6 +29,6 @@ func AudioDownload(link string) (string, string) {
 	output_name := path.Join(temp_video_dir, fmt.Sprintf("%s.mp3", *info[0].Title))
 	misc.Log(fmt.Sprintf("Downloaded %s", *info[0].Title), "")
 
-	return *info[0].Title, output_name
+	return *info[0].Title, *info[0].Thumbnail, output_name
 
 }

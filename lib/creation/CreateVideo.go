@@ -16,8 +16,11 @@ func FullProcedure(audio_url string, image_url string, opt Options) {
 		panic("Playlist isn't supported yet.")
 	}
 	println("Downloading " + audio_url)
-	audio_name, audio_path := audio.AudioDownload(audio_url)
+	audio_name, thumbnail, audio_path := audio.AudioDownload(audio_url)
 	println("Downloaded " + audio_name + "\n")
+	if image_url == "" {
+		image_url = thumbnail
+	}
 	println("Downloaded image from " + image_url)
 	image_path := image.ImageDownload(image_url, audio_name)
 	print("Downloaded image at " + image_path)

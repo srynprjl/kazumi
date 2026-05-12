@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/srynprjl/kazumi/cmd/cli"
 	"github.com/srynprjl/kazumi/lib/misc"
 )
 
@@ -24,7 +25,7 @@ func startup() {
 func main() {
 	if checkDependencies() {
 		startup()
-		// cli.Execute()
+		cli.Execute()
 	}
 
 }

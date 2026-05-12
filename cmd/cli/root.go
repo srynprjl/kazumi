@@ -1,23 +1,46 @@
 package cli
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
+	"github.com/srynprjl/kazumi/lib/creation"
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "kazumi",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+	Use: "kazumi",
+	// Args:    cobra.MaximumNArgs(1),
+	// Example: "kazumi --speed 1.25 --pitch 1.33 --image <url>  <url>`",
+	Example: "kazumi -s=1.25 -p=1.33 -i=<url>  <url>`",
+	Short:   "Video to Nightcore ",
+	Run: func(cmd *cobra.Command, args []string) {
+		var opt creation.Options = creation.Options{}
+		cmd.Flags().VisitAll(func(f *pflag.Flag) {
+			if f.Changed {
+				if f.Name == "speed" {
+					opt.Speed.Enabled = true
+					opt.Speed.Value, _ = cmd.Flags().GetFloat64(f.Name)
+				}
+				if f.Name == "pitch" {
+					opt.Pitch.Enabled = true
+					opt.Pitch.Value, _ = cmd.Flags().GetFloat64(f.Name)
+				}
+				if f.Name == "reverb" {
+					opt.Reverb.Enabled = true
+					opt.Reverb.InGain = 1.0
+					opt.Reverb.OutGain = 0.8
+					opt.Reverb.Delay = 40
+					opt.Reverb.Decay = 0.3
+				}
+			}
+		})
+		fmt.Println(opt)
+		audio := args[0]
+		img, _ := cmd.Flags().GetString("image")
+		creation.FullProcedure(audio, img, opt)
+	},
 }
 
 func Execute() {
@@ -29,4 +52,17 @@ func Execute() {
 
 func init() {
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	rootCmd.Flags().Float64P("speed", "s", 1.00, "Adjust speed for the video")
+	rootCmd.Flags().Lookup("speed").NoOptDefVal = "1.25"
+
+	rootCmd.Flags().Float64P("pitch", "p", 1.00, "Adjust pitch for the video")
+	rootCmd.Flags().Lookup("pitch").NoOptDefVal = "1.33"
+
+	rootCmd.Flags().BoolP("reverb", "r", false, "Add reverb for to the video")
+
+	rootCmd.Flags().StringP("image", "i", "", "Image url for video")
+	// if err := rootCmd.MarkFlagRequired("image"); err != nil {
+	// 	panic("Image needs to be set.")
+	// }
+
 }

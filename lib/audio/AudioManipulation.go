@@ -53,12 +53,14 @@ func AudioReverb(path string, inGain float32, outGain float32, delay float32, de
 		output = outputs[0] + "_edited.mp3"
 	}
 	temp_output := p.Join(misc.GetCacheDir(), "output.mp3")
-	filterString := fmt.Sprintf("in_gain=%.2f:out_gain=%.2f:delays=%.1f:decays=%.2f", inGain, outGain, delay, decay)
+	print(temp_output)
+	filterString := fmt.Sprintf("%.2f:%.2f:%.1f:%.2f", inGain, outGain, delay, decay)
+	// fmt.Println(filterString)
 	err := ffmpeg.Input(path).Filter("aresample", ffmpeg.Args{"44100"}).Filter("aecho", ffmpeg.Args{filterString}).Output(temp_output, ffmpeg.KwArgs{
 		"c:a": "libmp3lame",
 		"b:a": "192k",
 		"vn":  "",
-	}).OverWriteOutput().Silent(true).Run()
+	}).OverWriteOutput().Silent(true).ErrorToStdOut().GlobalArgs("-hide_banner", "-loglevel", "error").Run()
 	if err != nil {
 		misc.Log("Error while adjusting reverb", "e")
 		panic(err.Error())
