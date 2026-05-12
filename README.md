@@ -69,13 +69,38 @@ Kazumi requires the following external tools to be present in your system's PATH
 
 ## Usage
 
-Once built, you can run Kazumi from the bin directory:
+Once built, you can run Kazumi from the bin directory. The basic syntax is:
 
 ```bash
-./bin/kazumi
+./bin/kazumi [flags] <audio_url>
 ```
 
-*Note: The CLI is currently under active development and hasn't been properly implemented yet.*
+### Flags
+
+- `-s, --speed [value]`: Adjust the speed of the output. If the flag is provided without a value, it defaults to `1.25`.
+- `-p, --pitch [value]`: Adjust the pitch of the output. If the flag is provided without a value, it defaults to `1.33`.
+- `-r, --reverb`: Enable reverb effect for the audio. 
+- `-i, --image <url>`: Specify an image URL to be used for the video background. Default: YT Video's Thumbnail
+- `-h, --help`: Display the help message.
+
+### Examples
+
+**Basic Nightcore (default speed/pitch boost):**
+```bash
+./bin/kazumi --speed --pitch https://www.youtube.com/watch?v=example
+
+./bin/kazumi -s -p https://www.youtube.com/watch?v=example
+```
+
+**Custom Speed and Pitch with Reverb:**
+```bash
+./bin/kazumi -s=1.3 -p=1.4 -r https://www.youtube.com/watch?v=example
+```
+
+**With a custom image:**
+```bash
+./bin/kazumi -i "https://example.com/image.jpg" https://www.youtube.com/watch?v=example
+```
 
 ---
 
@@ -96,13 +121,16 @@ Once built, you can run Kazumi from the bin directory:
 
 ## Roadmap / TODO
 
-- [ ] Implement command line functionality
-- [ ] Allow multiple videos to be batch processed.
+- [ x ] Implement command line functionality
+- [ x ] Generate a simple video using the audio and image provided
+- [ ] Allow multiple videos to be batch processed (JSON config).
 - [ ] Add a config to store information such as locations
-- [ ] Generate a simple video using the audio and image provided
+- [ ] Add a history database
 - [ ] Add more audio filters like Bass Boost or EQ presets.
 - [ ] Add verbose error messages.
 - [ ] Add a way to automatically download & cache the dependencies if not present.
+- [ ] Allow you to set custom value for reverb in CLI
+- [ ] Allow user to use local audio
 
 ### UI Implementations
 - [ ] Build a terminal user interface using Bubble Tea or similar.
