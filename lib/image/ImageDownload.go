@@ -10,7 +10,7 @@ import (
 	"github.com/srynprjl/kazumi/lib/misc"
 )
 
-func ImageDownload(url string, name string) {
+func ImageDownload(url string, name string) string {
 	cache_file_name := misc.GetCacheDir()
 	out, err := os.Create(path.Join(cache_file_name, name))
 	misc.Log(fmt.Sprintf("Created file %s", name), "")
@@ -33,4 +33,5 @@ func ImageDownload(url string, name string) {
 		panic(err)
 	}
 	misc.Log(fmt.Sprintf("Downloaded file from %s", url), "")
+	return out.Name()
 }
