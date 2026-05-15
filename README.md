@@ -139,7 +139,7 @@ Once built, you can run Kazumi from the bin directory. The basic syntax is:
 - [ ] Add a way to automatically download & cache the dependencies if not present.
 - [ ] Allow you to set custom value for reverb in CLI
 - [ ] Allow user to use local audio
-- [ ] Fix the weird audio issues
+- [x] Fix the weird audio issues
 
 ### UI Implementations
 - [ ] Build a terminal user interface using Bubble Tea or similar.

@@ -23,7 +23,7 @@
       "enabled": true,
       "ingain": 1.0,
       "outgain": 0.8,
-      "delays": 40.0,
+      "delays": 1000.0,
       "decays": 0.3
     }
   }

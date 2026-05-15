@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	p "path"
+	"strconv"
 	"strings"
 
 	"github.com/srynprjl/kazumi/lib/misc"
@@ -17,14 +18,14 @@ func AudioSpeed(path string, value float64) string {
 	}
 	outputs := strings.Split(path, ".mp3")
 	output := outputs[0] + "_edited.mp3"
+
 	err := ffmpeg.Input(path).
 		Silent(true).
-		Filter("aresample", ffmpeg.Args{"44100"}).
 		Filter("atempo", ffmpeg.Args{fmt.Sprintf("%f", value)}).
-		Output(output, ffmpeg.KwArgs{"c:a": "aac", "q:a": "2"}).
+		Output(output, ffmpeg.KwArgs{"audio_bitrate": "192k"}).
 		OverWriteOutput().
 		ErrorToStdOut().
-		GlobalArgs("-hide_banner", "-loglevel", "error").
+		GlobalArgs("-hide_banner", "-loglevel", "error", "-y").
 		Run()
 
 	if err != nil {
@@ -36,26 +37,22 @@ func AudioSpeed(path string, value float64) string {
 }
 
 func AudioPitch(path string, value float64) string {
-	sampleRate := 44100
-	new_rate := int(float64(sampleRate) * value)
-	speed_corr := 1 / value
+
 	output := path
 	if !strings.HasSuffix(path, "_edited.mp3") {
 		outputs := strings.Split(path, ".mp3")
 		output = outputs[0] + "_edited.mp3"
 	}
-	temp_output := "output.mp3"
+	temp_output := p.Join(misc.GetCacheDir(), "output.mp3")
+	pitchStr := strconv.FormatFloat(value, 'f', 4, 64)
 
 	err := ffmpeg.Input(path).
 		Silent(true).
-		Filter("aresample", ffmpeg.Args{"44100"}).
-		Filter("asetrate", ffmpeg.Args{fmt.Sprintf("%d", new_rate)}).
-		Filter("atempo", ffmpeg.Args{fmt.Sprintf("%f", speed_corr)}).
+		Filter("rubberband", ffmpeg.Args{fmt.Sprintf("pitch=%s", pitchStr)}).
 		Filter("aresample", ffmpeg.Args{"44100"}).
 		Output(temp_output).
-		ErrorToStdOut().
-		GlobalArgs("-hide_banner", "-loglevel", "error").
 		OverWriteOutput().
+		GlobalArgs("-hide_banner", "-loglevel", "error", "-y").
 		Run()
 
 	if err != nil {
@@ -74,13 +71,11 @@ func AudioReverb(path string, inGain float32, outGain float32, delay float32, de
 		output = outputs[0] + "_edited.mp3"
 	}
 	temp_output := p.Join(misc.GetCacheDir(), "output.mp3")
-	print(temp_output)
 	filterString := fmt.Sprintf("%.2f:%.2f:%.1f:%.2f", inGain, outGain, delay, decay)
 	// fmt.Println(filterString)
 	err := ffmpeg.Input(path).
-		Filter("aresample", ffmpeg.Args{"44100"}).
-		Filter("apad", ffmpeg.Args{"pad_len=176400"}).
 		Filter("aecho", ffmpeg.Args{filterString}).
+		Filter("aresample", ffmpeg.Args{"44100"}).
 		Output(temp_output, ffmpeg.KwArgs{
 			"c:a": "libmp3lame",
 			"b:a": "192k",
@@ -89,7 +84,7 @@ func AudioReverb(path string, inGain float32, outGain float32, delay float32, de
 		OverWriteOutput().
 		Silent(true).
 		ErrorToStdOut().
-		GlobalArgs("-hide_banner", "-loglevel", "error").
+		GlobalArgs("-hide_banner", "-loglevel", "error", "-y").
 		Run()
 
 	if err != nil {
