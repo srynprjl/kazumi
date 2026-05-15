@@ -24,7 +24,7 @@ help:
 build:
 	@echo "Building $(BINARY_NAME) $(VERSION)..."
 	@mkdir -p $(BUILD_DIR)
-	@CGO_ENABLED=0 $(GOBUILD) $(LDFLAGS) -trimpath -o $(BUILD_DIR)/$(BINARY_NAME) cmd/kazumi/main.go
+	@CGO_ENABLED=1 $(GOBUILD) $(LDFLAGS) -trimpath -o $(BUILD_DIR)/$(BINARY_NAME) cmd/kazumi/main.go
 	@echo "Build complete: $(BUILD_DIR)/$(BINARY_NAME)"
 
 clean:

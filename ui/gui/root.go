@@ -15,6 +15,7 @@ import (
 func Gui() {
 	jsons := []models.JSONConfig{}
 	jsonz := models.JSONConfig{}
+	
 	myApp := app.New()
 	myWindow := myApp.NewWindow("Kazumi")
 
