@@ -64,6 +64,7 @@ func init() {
 
 	rootCmd.AddCommand(jsonCmd)
 	rootCmd.AddCommand(cacheCmd)
+	rootCmd.AddCommand(guiCmd)
 	cacheCmd.Flags().BoolP("clean", "c", false, "Clean the cache directory")
 
 }
