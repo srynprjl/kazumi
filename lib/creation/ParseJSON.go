@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"io"
 	"os"
+
+	"github.com/srynprjl/kazumi/lib/models"
 )
 
-func ParseJSON(jsonfile string) []JSONConfig {
+func ParseJSON(jsonfile string) []models.JSONConfig {
 	_, err := os.Stat(jsonfile)
 	if os.IsNotExist(err) {
 		fmt.Println("ERROR: File not found")
@@ -19,14 +21,14 @@ func ParseJSON(jsonfile string) []JSONConfig {
 	}
 	defer jsonFile.Close()
 	jsonByte, err := io.ReadAll(jsonFile)
-	var contents []JSONConfig
+	var contents []models.JSONConfig
 	err = json.Unmarshal(jsonByte, &contents)
 
 	return contents
 }
 
-func DownloadUsingJSON(json []JSONConfig) {
+func DownloadUsingJSON(json []models.JSONConfig) {
 	for _, val := range json {
-		FullProcedure(val.VideoURL, val.ImageURL, Options{val.Speed, val.Pitch, val.Reverb}, val.Video)
+		FullProcedure(val.VideoURL, val.ImageURL, models.Options{val.Speed, val.Pitch, val.Reverb}, val.Video)
 	}
 }

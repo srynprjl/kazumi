@@ -7,57 +7,72 @@ import (
 	"strings"
 
 	"github.com/srynprjl/kazumi/lib/audio"
-	"github.com/srynprjl/kazumi/lib/image"
+	"github.com/srynprjl/kazumi/lib/media"
 	"github.com/srynprjl/kazumi/lib/misc"
+	"github.com/srynprjl/kazumi/lib/models"
 )
 
-func FullProcedure(audio_url string, image_url string, opt Options, needAudio bool) {
+func FullProcedure(audio_url string, image_url string, opt models.Options, needAudio bool) {
 	if strings.Contains(audio_url, "playlist?list") {
 		panic("Playlist isn't supported yet.")
 	}
-	println("Downloading " + audio_url)
 	audio_name, thumbnail, audio_path := audio.AudioDownload(audio_url)
-	println("Downloaded " + audio_name + "\n")
-
 	if opt.Speed.Enabled && opt.Speed.Value != 0.0 {
-		fmt.Printf("\nSetting the speed to %.0f%% \n", opt.Speed.Value*100)
-		audio_path = audio.AudioSpeed(audio_path, opt.Speed.Value)
+		ah, err := audio.AudioSpeed(audio_path, opt.Speed.Value)
+		audio_path = ah
+		if err != nil {
+			fmt.Printf("[ERROR] %s", err.Error())
+			return
+		}
 	}
 	if opt.Pitch.Enabled && opt.Pitch.Value != 0.0 {
-		percentage := opt.Pitch.Value * 100
-		fmt.Printf("\nSetting the pitch to %.0f%%\n", percentage)
-		audio_path = audio.AudioPitch(audio_path, opt.Pitch.Value)
+		ah, err := audio.AudioPitch(audio_path, opt.Pitch.Value)
+		audio_path = ah
+		if err != nil {
+			fmt.Printf("[ERROR] %s", err.Error())
+			return
+		}
 	}
+
 	if opt.Reverb.Enabled && opt.Reverb.InGain != 0 && opt.Reverb.OutGain != 0 && opt.Reverb.Delay != 0 && opt.Reverb.Decay != 0 {
-		fmt.Printf("\nSetting the audio's ingain to %.2f , outgain to %.2f, delay to %.2f and decay to %.2f", opt.Reverb.InGain, opt.Reverb.OutGain, opt.Reverb.Delay, opt.Reverb.Decay)
-		audio_path = audio.AudioReverb(audio_path, opt.Reverb.InGain, opt.Reverb.OutGain, opt.Reverb.Delay, opt.Reverb.Decay)
+		ah, err := audio.AudioReverb(audio_path, opt.Reverb)
+		audio_path = ah
+		if err != nil {
+			fmt.Printf("[ERROR] %s", err.Error())
+			return
+		}
 	}
 
 	if needAudio {
-		print("Audio downloaded, moving to Audio folder...")
+		fmt.Println("Audio has been succesfully converted. Moving to audio folder")
 		audios := strings.Join([]string{audio_name, "mp3"}, ".")
 		new_path := path.Join(misc.AudioDir(), audios)
 		os.Rename(audio_path, new_path)
+		fmt.Println("Audio has been succesfully moved to " + new_path)
 		return
 	}
 
 	if image_url == "" {
 		image_url = thumbnail
 	}
-	println("Downloaded image from " + image_url)
-	image_path := image.ImageDownload(image_url, audio_name)
-	print("Downloaded image at " + image_path)
-	println()
 
-	println("\nCreating a video. ")
-	video_path := image.MakeVideos(image_path, audio_path)
-	println("Video succesfully created at " + video_path)
-
-	println("Moving video to main videos path. ")
-	new_videos_path := path.Join(misc.VideosDir(), path.Base(video_path))
-	println(new_videos_path)
-	err := os.Rename(video_path, new_videos_path)
+	image_path, err := media.ImageDownload(image_url, audio_name)
 	if err != nil {
-		panic(err)
+		fmt.Printf("[ERROR] %s", err.Error())
+		return
 	}
+
+	video_path, err := media.MakeVideos(image_path, audio_path)
+	if err != nil {
+		fmt.Printf("[ERROR] %s", err.Error())
+		return
+	}
+	new_videos_path := path.Join(misc.VideosDir(), path.Base(video_path))
+
+	fmt.Println("Video has been successfully rendered. Moving it into " + new_videos_path)
+	err = os.Rename(video_path, new_videos_path)
+	if err != nil {
+		fmt.Println("[ERROR] " + err.Error())
+	}
+	fmt.Println("Video has been successfully moved to " + new_videos_path)
 }

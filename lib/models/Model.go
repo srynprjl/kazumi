@@ -1,4 +1,4 @@
-package creation
+package models
 
 type Speed struct {
 	Enabled bool    `json:"enabled"`

@@ -3,7 +3,6 @@ package audio
 import (
 	"context"
 	"fmt"
-	"os"
 	"path"
 	"strings"
 
@@ -12,23 +11,28 @@ import (
 )
 
 func AudioDownload(link string) (string, string, string) {
-	// bool, _ := misc.CheckDependencies("yt-dlp")
-	// if !bool {
-	// 	misc.Log("yt-dlp not installed", "e")
-	// 	panic("yt-dlp not installed")
-	// }
-	cache_dir, _ := os.UserCacheDir()
-	temp_video_dir := path.Join(cache_dir, "kazumi", "videos")
-	dl := ytdlp.New().PrintJSON().NoProgress().Format("bestaudio/best").FormatSort("ext:m4a").ExtractAudio().AudioFormat("mp3").NoOverwrites().NoPlaylist().Output(path.Join(temp_video_dir, "%(title)s.%(ext)s"))
-	misc.Log("Downloading audio...", "")
+	temp_video_dir := misc.GetCacheDir()
+	dl := ytdlp.
+		New().
+		PrintJSON().
+		NoProgress().
+		Format("bestaudio/best").
+		FormatSort("ext:m4a").
+		ExtractAudio().
+		AudioFormat("mp3").
+		NoOverwrites().
+		NoPlaylist().
+		Output(path.Join(temp_video_dir, "%(title)s.%(ext)s"))
+
+	fmt.Printf("Downloading audio from %s\n", link)
 	out, err := dl.Run(context.Background(), link)
 	if err != nil {
-		misc.Log("Error while downloading audio", "e")
-		panic(err)
+		fmt.Println("Error while downloading audio", err.Error())
 	}
-	info, err := out.GetExtractedInfo()
-	misc.Log(fmt.Sprintf("Downloaded %s", *info[0].Title), "")
+	fmt.Printf("Downloaded audio from %s\n", link)
+	info, _ := out.GetExtractedInfo()
 	output := strings.TrimSuffix(*info[0].Filename, "m4a") + "mp3"
+	
 	return *info[0].Title, *info[0].Thumbnail, output
 
 }

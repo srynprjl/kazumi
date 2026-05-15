@@ -10,16 +10,7 @@ func GetCacheDir() string {
 	if err != nil {
 		panic(err)
 	}
-	dir := path.Join(cache_dir, "kazumi", "videos")
-	return dir
-}
-
-func GetLogDir() string {
-	cache_dir, err := os.UserCacheDir()
-	if err != nil {
-		panic(err)
-	}
-	dir := path.Join(cache_dir, "kazumi", "logs")
+	dir := path.Join(cache_dir, "kazumi")
 	return dir
 }
 

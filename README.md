@@ -83,6 +83,7 @@ Once built, you can run Kazumi from the bin directory. The basic syntax is:
 - `-i, --image <url>`: Specify an image URL to be used for the video background. Default: YT Video's Thumbnail
 - `-h, --help`: Display the help message.
 - `-j, --json`: Use JSON file, to download in bulk
+- `-a, --audio`: Only download audio.
 
 ### Examples
 
@@ -132,6 +133,7 @@ Once built, you can run Kazumi from the bin directory. The basic syntax is:
 - [x] Implement command line functionality
 - [x] Generate a simple video using the audio and image provided
 - [x] Allow multiple videos to be batch processed (JSON config).
+- [x] Fix the weird audio issues
 - [ ] Add a config to store information such as locations
 - [ ] Add a history database
 - [ ] Add more audio filters like Bass Boost or EQ presets.
@@ -139,13 +141,11 @@ Once built, you can run Kazumi from the bin directory. The basic syntax is:
 - [ ] Add a way to automatically download & cache the dependencies if not present.
 - [ ] Allow you to set custom value for reverb in CLI
 - [ ] Allow user to use local audio
-- [x] Fix the weird audio issues
 
 ### UI Implementations
 - [ ] Build a terminal user interface using Bubble Tea or similar.
 - [ ] Use Fyne to build a GUI Application
 - [ ] Create a basic website to manage the download remotely
-
 
 ---
 

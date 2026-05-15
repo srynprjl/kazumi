@@ -17,8 +17,3 @@ func CleanVideoCaches() {
 	cacheDir := GetCacheDir()
 	CleanDir(cacheDir)
 }
-
-func CleanLogCache() {
-	cacheDir := GetLogDir()
-	CleanDir(cacheDir)
-}

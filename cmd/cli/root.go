@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/srynprjl/kazumi/lib/creation"
+	"github.com/srynprjl/kazumi/lib/models"
 )
 
 var rootCmd = &cobra.Command{
@@ -15,7 +16,7 @@ var rootCmd = &cobra.Command{
 	Short:   "Video to Nightcore ",
 	Run: func(cmd *cobra.Command, args []string) {
 
-		var opt creation.Options = creation.Options{}
+		var opt models.Options = models.Options{}
 		cmd.Flags().VisitAll(func(f *pflag.Flag) {
 			if f.Changed {
 				if f.Name == "speed" {
@@ -63,8 +64,6 @@ func init() {
 
 	rootCmd.AddCommand(jsonCmd)
 	rootCmd.AddCommand(cacheCmd)
-	cacheCmd.Flags().BoolP("cache", "c", false, "Clean the cache directory")
-	cacheCmd.Flags().BoolP("logs", "l", false, "Clean the logs directory")
-	cacheCmd.MarkFlagsMutuallyExclusive("cache", "logs")
-	cacheCmd.Flags().BoolP("all", "a", false, "Clean all caches")
+	cacheCmd.Flags().BoolP("clean", "c", false, "Clean the cache directory")
+
 }
