@@ -12,10 +12,10 @@ type Pitch struct {
 
 type Reverb struct {
 	Enabled bool    `json:"enabled"`
-	InGain  float32 `json:"ingain"`
-	OutGain float32 `json:"outgain"`
-	Decay   float32 `json:"decays"`
-	Delay   float32 `json:"delays"`
+	InGain  float64 `json:"ingain"`
+	OutGain float64 `json:"outgain"`
+	Decay   float64 `json:"decays"`
+	Delay   float64 `json:"delays"`
 }
 
 type Options struct {
