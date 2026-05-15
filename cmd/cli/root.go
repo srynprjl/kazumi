@@ -38,7 +38,8 @@ var rootCmd = &cobra.Command{
 		// fmt.Println(opt)
 		audio := args[0]
 		img, _ := cmd.Flags().GetString("image")
-		creation.FullProcedure(audio, img, opt)
+		makeAudio, _ := cmd.Flags().GetBool("audio")
+		creation.FullProcedure(audio, img, opt, makeAudio)
 
 	},
 }
@@ -54,17 +55,14 @@ func init() {
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.Flags().Float64P("speed", "s", 1.00, "Adjust speed for the video")
 	rootCmd.Flags().Lookup("speed").NoOptDefVal = "1.25"
-
 	rootCmd.Flags().Float64P("pitch", "p", 1.00, "Adjust pitch for the video")
 	rootCmd.Flags().Lookup("pitch").NoOptDefVal = "1.33"
-
 	rootCmd.Flags().BoolP("reverb", "r", false, "Add reverb for to the video")
-
 	rootCmd.Flags().StringP("image", "i", "", "Image url for video")
+	rootCmd.Flags().BoolP("audio", "a", false, "Only download audio, and not video.")
 
 	rootCmd.AddCommand(jsonCmd)
 	rootCmd.AddCommand(cacheCmd)
-
 	cacheCmd.Flags().BoolP("cache", "c", false, "Clean the cache directory")
 	cacheCmd.Flags().BoolP("logs", "l", false, "Clean the logs directory")
 	cacheCmd.MarkFlagsMutuallyExclusive("cache", "logs")

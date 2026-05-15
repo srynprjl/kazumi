@@ -17,7 +17,7 @@ func AudioSpeed(path string, value float64) string {
 	}
 	outputs := strings.Split(path, ".mp3")
 	output := outputs[0] + "_edited.mp3"
-	err := ffmpeg.Input(path).Silent(true).Filter("aresample", ffmpeg.Args{"44100"}).Filter("atempo", ffmpeg.Args{fmt.Sprintf("%f", value)}).Output(output, ffmpeg.KwArgs{"audio_bitrate": "192k"}).OverWriteOutput().ErrorToStdOut().Run()
+	err := ffmpeg.Input(path).Silent(true).Filter("aresample", ffmpeg.Args{"44100"}).Filter("atempo", ffmpeg.Args{fmt.Sprintf("%f", value)}).Output(output, ffmpeg.KwArgs{"audio_bitrate": "192k"}).OverWriteOutput().GlobalArgs("-hide_banner", "-loglevel", "error").ErrorToStdOut().Run()
 	if err != nil {
 		misc.Log("Error while adjusting speed", "e")
 		panic(err)
@@ -36,7 +36,7 @@ func AudioPitch(path string, value float64) string {
 		output = outputs[0] + "_edited.mp3"
 	}
 	temp_output := "output.mp3"
-	err := ffmpeg.Input(path).Silent(true).Filter("aresample", ffmpeg.Args{"44100"}).Filter("asetrate", ffmpeg.Args{fmt.Sprintf("%d", new_rate)}).Filter("atempo", ffmpeg.Args{fmt.Sprintf("%f", speed_corr)}).Output(temp_output).OverWriteOutput().Run()
+	err := ffmpeg.Input(path).Silent(true).Filter("aresample", ffmpeg.Args{"44100"}).Filter("asetrate", ffmpeg.Args{fmt.Sprintf("%d", new_rate)}).Filter("atempo", ffmpeg.Args{fmt.Sprintf("%f", speed_corr)}).Output(temp_output).GlobalArgs("-hide_banner", "-loglevel", "error").OverWriteOutput().Run()
 	if err != nil {
 		misc.Log("Error while adjusting pitch", "e")
 		panic(err)

@@ -120,7 +120,7 @@ Once built, you can run Kazumi from the bin directory. The basic syntax is:
 │   └── cli/       # CLI command definitions (Cobra) [WIP]
 ├── lib/
 │   ├── audio/     # Processing & Downloading logic
-│   ├── image/     # Video generation [WIP]
+│   ├── image/     # Video generation
 │   └── misc/      # Utils, Logging, Dependencies
 └── ui/            # Planned UI implementations (TUI/GUI/Web)
 ```

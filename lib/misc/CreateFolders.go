@@ -35,4 +35,8 @@ func CreateHomeFolder() {
 	home_video_dir := VideosDir()
 	createIfNotExists(home_video_dir)
 	Log("Video directory created.", "")
+
+	audio_video_dir := AudioDir()
+	createIfNotExists(audio_video_dir)
+	Log("Audio directory created.", "")
 }

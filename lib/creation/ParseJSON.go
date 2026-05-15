@@ -27,6 +27,6 @@ func ParseJSON(jsonfile string) []JSONConfig {
 
 func DownloadUsingJSON(json []JSONConfig) {
 	for _, val := range json {
-		FullProcedure(val.VideoURL, val.ImageURL, Options{val.Speed, val.Pitch, val.Reverb})
+		FullProcedure(val.VideoURL, val.ImageURL, Options{val.Speed, val.Pitch, val.Reverb}, val.Video)
 	}
 }

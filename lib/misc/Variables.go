@@ -31,3 +31,12 @@ func VideosDir() string {
 	dir := path.Join(home_folder, "Videos", "kazumi")
 	return dir
 }
+
+func AudioDir() string {
+	home_folder, err := os.UserHomeDir()
+	if err != nil {
+		panic(err)
+	}
+	dir := path.Join(home_folder, "Music", "kazumi")
+	return dir
+}

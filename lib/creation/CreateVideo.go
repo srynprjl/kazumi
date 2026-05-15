@@ -11,20 +11,13 @@ import (
 	"github.com/srynprjl/kazumi/lib/misc"
 )
 
-func FullProcedure(audio_url string, image_url string, opt Options) {
+func FullProcedure(audio_url string, image_url string, opt Options, needAudio bool) {
 	if strings.Contains(audio_url, "playlist?list") {
 		panic("Playlist isn't supported yet.")
 	}
 	println("Downloading " + audio_url)
 	audio_name, thumbnail, audio_path := audio.AudioDownload(audio_url)
 	println("Downloaded " + audio_name + "\n")
-	if image_url == "" {
-		image_url = thumbnail
-	}
-	println("Downloaded image from " + image_url)
-	image_path := image.ImageDownload(image_url, audio_name)
-	print("Downloaded image at " + image_path)
-	println()
 
 	if opt.Speed.Enabled && opt.Speed.Value != 0.0 {
 		fmt.Printf("\nSetting the speed to %.0f%% \n", opt.Speed.Value*100)
@@ -39,6 +32,22 @@ func FullProcedure(audio_url string, image_url string, opt Options) {
 		fmt.Printf("\nSetting the audio's ingain to %.2f , outgain to %.2f, delay to %.2f and decay to %.2f", opt.Reverb.InGain, opt.Reverb.OutGain, opt.Reverb.Delay, opt.Reverb.Decay)
 		audio_path = audio.AudioReverb(audio_path, opt.Reverb.InGain, opt.Reverb.OutGain, opt.Reverb.Delay, opt.Reverb.Decay)
 	}
+
+	if needAudio {
+		print("Audio downloaded, moving to Audio folder...")
+		audios := strings.Join([]string{audio_name, "mp3"}, ".")
+		new_path := path.Join(misc.AudioDir(), audios)
+		os.Rename(audio_path, new_path)
+		return
+	}
+
+	if image_url == "" {
+		image_url = thumbnail
+	}
+	println("Downloaded image from " + image_url)
+	image_path := image.ImageDownload(image_url, audio_name)
+	print("Downloaded image at " + image_path)
+	println()
 
 	println("\nCreating a video. ")
 	video_path := image.MakeVideos(image_path, audio_path)
